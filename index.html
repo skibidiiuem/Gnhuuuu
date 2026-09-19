@@ -1,470 +1,663 @@
-!DOCTYPE html
-html lang=vi
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titleChị Gia Như Cố Lên ❤️title
-    !-- Tailwind CSS --
-    script src=httpscdn.tailwindcss.comscript
-    !-- Cute Google Fonts --
-    link href=httpsfonts.googleapis.comcss2family=Comfortaawght@700&family=Maliital,wght@0,500;0,700;1,500&family=Quicksandwght@500;600;700&display=swap rel=stylesheet
-    !-- Font Awesome Icons --
-    link rel=stylesheet href=httpscdnjs.cloudflare.comajaxlibsfont-awesome6.4.0cssall.min.css
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chị Gia Như Cố Lên ❤️</title>
+  <meta name="description" content="Một trang nhỏ để cổ vũ Chị Gia Như." />
 
-    style
-        body {
-            font-family 'Mali', cursive, sans-serif;
-            background linear-gradient(135deg, #ffd1dc 0%, #ffe6ea 40%, #ffc0cb 70%, #ffb6c1 100%);
-            min-height 100vh;
-            overflow-x hidden;
-            touch-action manipulation;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-         Pulsing Beating Heart Animation 
-        @keyframes heartbeat {
-            0% {
-                transform scale(1) rotate(0deg);
-                filter drop-shadow(0 0 25px rgba(244, 63, 94, 0.75));
-            }
-            14% {
-                transform scale(1.13) rotate(-1deg);
-                filter drop-shadow(0 0 45px rgba(244, 63, 94, 0.95));
-            }
-            28% {
-                transform scale(1) rotate(0deg);
-                filter drop-shadow(0 0 25px rgba(244, 63, 94, 0.75));
-            }
-            42% {
-                transform scale(1.08) rotate(1deg);
-                filter drop-shadow(0 0 35px rgba(244, 63, 94, 0.85));
-            }
-            70% {
-                transform scale(1) rotate(0deg);
-                filter drop-shadow(0 0 25px rgba(244, 63, 94, 0.75));
-            }
-        }
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
 
-        .animate-heartbeat {
-            animation heartbeat 1.4s infinite ease-in-out;
-        }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
 
-         Floating Flying Cats Animations 
-        @keyframes floatSlow1 {
-            0% { transform translate(0, 0) rotate(0deg); }
-            50% { transform translate(25px, -35px) rotate(8deg); }
-            100% { transform translate(0, 0) rotate(0deg); }
-        }
+      background:
+        radial-gradient(
+          circle at 50% 42%,
+          rgba(255, 105, 150, .16),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(255, 180, 210, .12),
+          transparent 25%
+        ),
+        linear-gradient(
+          135deg,
+          #160812,
+          #2b0c1d 45%,
+          #12060e
+        );
 
-        @keyframes floatSlow2 {
-            0% { transform translate(0, 0) rotate(0deg); }
-            50% { transform translate(-30px, -25px) rotate(-10deg); }
-            100% { transform translate(0, 0) rotate(0deg); }
-        }
+      color: white;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      position: relative;
+      isolation: isolate;
+    }
 
-        .cat-float-1 { animation floatSlow1 6s infinite ease-in-out; }
-        .cat-float-2 { animation floatSlow2 7s infinite ease-in-out; }
-        .cat-float-3 { animation floatSlow1 8s infinite ease-in-out reverse; }
-        .cat-float-4 { animation floatSlow2 6.5s infinite ease-in-out reverse; }
+    /* =========================
+       SAO NỀN
+    ========================== */
 
-         Canvas overlaid 
-        #heart-canvas {
-            position fixed;
-            top 0;
-            left 0;
-            width 100vw;
-            height 100vh;
-            pointer-events none;
-            z-index 10;
-        }
+    .stars,
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-         Glassmorphism Card Style 
-        .glass-card {
-            background rgba(255, 255, 255, 0.45);
-            backdrop-filter blur(16px);
-            -webkit-backdrop-filter blur(16px);
-            border 2px solid rgba(255, 255, 255, 0.6);
-            box-shadow 0 15px 35px rgba(244, 63, 94, 0.15);
-        }
+    .stars {
+      z-index: -2;
+    }
 
-         Text glow 
-        .glow-text {
-            text-shadow 0 2px 10px rgba(0, 0, 0, 0.35);
-        }
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .8);
+      animation: twinkle 2s ease-in-out infinite;
+    }
 
-         Smooth popup transition 
-        .modal-enter {
-            opacity 0;
-            transform scale(0.8);
-        }
-        .modal-enter-active {
-            opacity 1;
-            transform scale(1);
-            transition all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-    style
-head
-body class=relative min-h-screen flex flex-col justify-between items-center select-none overflow-x-hidden
+    @keyframes twinkle {
+      0%,
+      100% {
+        opacity: .15;
+        transform: scale(.7);
+      }
 
-    canvas id=heart-canvascanvas
+      50% {
+        opacity: .9;
+        transform: scale(1.4);
+      }
+    }
 
-    !-- Top Floating Header Controls --
-    header class=w-full max-w-4xl px-4 py-4 z-30 flex justify-between items-center
-        div class=glass-card px-4 py-2 rounded-full flex items-center gap-2
-            span class=text-pink-600 font-bold text-sm smtext-base flex items-center gap-1
-                i class=fa-solid fa-sparkles text-amber-400i Gia Như 's Sanctuary
-            span
-        div
+    /* =========================
+       TIM NHỎ RƠI
+    ========================== */
 
-        button id=music-btn onclick=toggleMusic() class=glass-card hoverbg-white70 text-pink-600 font-bold px-4 py-2 rounded-full flex items-center gap-2 transition activescale-95 shadow-md
-            i id=music-icon class=fa-solid fa-musici
-            span id=music-text class=text-xs smtext-smBật nhạc chill 🎵span
-        button
-    header
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: var(--size);
+      opacity: var(--opacity);
 
-    !-- Floating Cute Cats (Positioned floating around screen) --
-    div class=fixed top-20 left-[5%] smleft-[10%] z-20 cat-float-1
-        div class=relative group
-            img src=httpsi.pinimg.com736x77190077190088c8605dde08fdd0b3ab1a5441.jpg 
-                 onerror=this.src='httpsplacehold.co150x150ffb6c1fffffftext=Mèo+Cute+1' 
-                 alt=Mèo xinh 1 
-                 class=w-20 h-20 smw-28 smh-28 object-cover rounded-full border-4 border-white shadow-lg shadow-pink-30050
-            div class=absolute -bottom-2 left-12 -translate-x-12 bg-white90 text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap
-                Cố lên nha! ✨
-            div
-        div
-    div
+      filter:
+        drop-shadow(
+          0 0 8px rgba(255, 80, 130, .55)
+        );
 
-    div class=fixed top-24 right-[5%] smright-[10%] z-20 cat-float-2
-        div class=relative group
-            img src=httpsi.pinimg.com736x6f0c7d6f0c7dd236a49fef3d2c7ad9def7f87c.jpg 
-                 onerror=this.src='httpsplacehold.co150x150ffb6c1fffffftext=Mèo+Cute+2' 
-                 alt=Mèo xinh 2 
-                 class=w-20 h-20 smw-28 smh-28 object-cover rounded-full border-4 border-white shadow-lg shadow-pink-30050
-            div class=absolute -bottom-2 left-12 -translate-x-12 bg-white90 text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap
-                Luôn xinh đẹp! 🌸
-            div
-        div
-    div
+      animation:
+        fall var(--duration)
+        linear infinite;
 
-    div class=fixed bottom-24 left-[6%] smleft-[12%] z-20 cat-float-3
-        div class=relative group
-            img src=httpsi.pinimg.com736x2d84bd2d84bdf4abd6f05f6efa07a5008d0d98.jpg 
-                 onerror=this.src='httpsplacehold.co150x150ffb6c1fffffftext=Mèo+Cute+3' 
-                 alt=Mèo xinh 3 
-                 class=w-20 h-20 smw-28 smh-28 object-cover rounded-full border-4 border-white shadow-lg shadow-pink-30050
-            div class=absolute -bottom-2 left-12 -translate-x-12 bg-white90 text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap
-                Vui vẻ mỗi ngày 💖
-            div
-        div
-    div
+      animation-delay: var(--delay);
+    }
 
-    div class=fixed bottom-28 right-[6%] smright-[12%] z-20 cat-float-4
-        div class=relative group
-            img src=httpsi.pinimg.com736xa1b1e8a1b1e85f90678baa8013f9a430c6d108.jpg 
-                 onerror=this.src='httpsplacehold.co150x150ffb6c1fffffftext=Mèo+Cute+4' 
-                 alt=Mèo xinh 4 
-                 class=w-20 h-20 smw-28 smh-28 object-cover rounded-full border-4 border-white shadow-lg shadow-pink-30050
-            div class=absolute -bottom-2 left-12 -translate-x-12 bg-white90 text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap
-                Chị là tuyệt nhất 👑
-            div
-        div
-    div
+    @keyframes fall {
+      0% {
+        transform:
+          translate3d(0, 0, 0)
+          rotate(0deg);
+      }
 
-    !-- Main Center Content --
-    main class=z-20 my-auto flex flex-col items-center justify-center p-4 text-center
-        
-        !-- Interactive Big Beating Heart --
-        div onclick=openHeartModal(event) class=animate-heartbeat relative cursor-pointer group transition transform activescale-95 my-4
-            !-- SVG Heart Shape --
-            svg class=w-[310px] h-[310px] smw-[440px] smh-[440px] filter drop-shadow-[0_0_35px_rgba(244,63,94,0.8)] viewBox=0 0 24 24
-                defs
-                    linearGradient id=heartGradient x1=0% y1=0% x2=100% y2=100%
-                        stop offset=0% stop-color=#ff3366 
-                        stop offset=50% stop-color=#f43f5e 
-                        stop offset=100% stop-color=#e11d48 
-                    linearGradient
-                defs
-                path fill=url(#heartGradient) d=M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z
-            svg
+      25% {
+        transform:
+          translate3d(var(--drift), -25vh, 0)
+          rotate(80deg);
+      }
 
-            !-- Text Inside Heart (Exact multiline requested) --
-            div class=absolute inset-0 flex flex-col items-center justify-center text-center p-2
-                p style=font-family 'Comfortaa', cursive; class=text-white font-extrabold text-3xl smtext-5xl leading-tight tracking-wider glow-text drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)]
-                    Chịbr
-                    Gia Nhưbr
-                    Cố Lên
-                p
-                div class=mt-3 bg-white20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs smtext-sm font-semibold flex items-center gap-1 border border-white30
-                    i class=fa-solid fa-hand-pointer animate-bouncei Bấm vào đây nè!
-                div
-            div
-        div
+      50% {
+        transform:
+          translate3d(
+            calc(var(--drift) * -0.7),
+            -50vh,
+            0
+          )
+          rotate(170deg);
+      }
 
-        !-- Supportive Subtitle Tagline --
-        div class=glass-card px-6 py-3 rounded-2xl max-w-md mt-2 shadow-lg
-            p class=text-pink-700 font-bold text-sm smtext-base
-                ✨ Mọi khó khăn rồi sẽ qua, chúc chị Gia Như luôn tràn đầy năng lượng & may mắn! ✨
-            p
-        div
-    main
+      75% {
+        transform:
+          translate3d(var(--drift), -75vh, 0)
+          rotate(260deg);
+      }
 
-    !-- Heart Message Modal Popup --
-    div id=heart-modal class=fixed inset-0 bg-black40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden
-        div class=glass-card bg-white90 max-w-md w-full rounded-3xl p-6 smp-8 text-center relative border-2 border-pink-300 shadow-2xl transition transform
-            button onclick=closeHeartModal() class=absolute top-4 right-4 text-pink-400 hovertext-pink-600 text-2xl font-bold w-8 h-8 rounded-full flex items-center justify-center hoverbg-pink-100 transition
-                &times;
-            button
+      100% {
+        transform:
+          translate3d(
+            calc(var(--drift) * -0.5),
+            -115vh,
+            0
+          )
+          rotate(360deg);
+      }
+    }
 
-            div class=w-20 h-20 mx-auto -mt-12 bg-pink-500 rounded-full flex items-center justify-center text-white text-3xl shadow-lg border-4 border-white
-                i class=fa-solid fa-heart animate-pulsei
-            div
+    /* =========================
+       KHUNG CHÍNH
+    ========================== */
 
-            h3 class=text-2xl font-bold text-pink-600 mt-4 mb-2Lời Nhắn Dành Cho Chị Gia Nhưh3
-            
-            p class=text-gray-700 leading-relaxed text-sm smtext-base my-4
-                🌸 strongChị Gia Như ơi!strongbr
-                Dù công việc hay cuộc sống có đôi lúc áp lực, chị hãy nhớ rằng luôn có những tình cảm ấm áp và những lời chúc tốt đẹp nhất dành cho chị.brbr
-                Hãy tự tin, luôn giữ nụ cười thật tươi và cố lên nhé! Chị nhất định sẽ làm được tất cả! 💪💖
-            p
+    main {
+      width: min(1100px, 94vw);
+      min-height: 100vh;
 
-            button onclick=closeHeartModal() class=w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 hoverfrom-pink-600 hoverto-rose-600 text-white font-bold rounded-2xl shadow-lg shadow-pink-50030 transition activescale-95
-                Cảm ơn nha! 🥰
-            button
-        div
-    div
+      display: grid;
+      place-items: center;
 
-    footer class=z-20 py-3 text-pink-80070 text-xs font-semibold text-center
-        Dành riêng cho Chị Gia Như • Chạm vào màn hình để tạo trái tim lấp lánh ✨
-    footer
+      padding: 40px 20px;
 
-    script
-         Canvas Particle System Setup
-        const canvas = document.getElementById('heart-canvas');
-        const ctx = canvas.getContext('2d');
+      position: relative;
+    }
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+    .hero {
+      position: relative;
 
-        window.addEventListener('resize', () = {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
+      width: min(760px, 88vw);
+      aspect-ratio: 1 / .92;
 
-         Endless Falling Hearts Class
-        class FallingHeart {
-            constructor() {
-                this.reset();
-            }
+      display: grid;
+      place-items: center;
+    }
 
-            reset() {
-                this.x = Math.random()  width;
-                this.y = -20 - Math.random()  80;
-                this.size = Math.random()  14 + 8;
-                this.speedY = Math.random()  1.8 + 0.8;
-                this.speedX = Math.sin(Math.random()  Math.PI)  0.8 - 0.4;
-                this.opacity = Math.random()  0.6 + 0.4;
-                this.rotation = Math.random()  Math.PI  2;
-                this.rotationSpeed = (Math.random() - 0.5)  0.03;
-                this.color = `hsl(${Math.random()  25 + 335}, 100%, ${Math.random()  20 + 65}%)`;
-            }
+    /* =========================
+       TRÁI TIM CHÍNH
+       NHỎ HƠN BẢN CŨ
+    ========================== */
 
-            update() {
-                this.y += this.speedY;
-                this.x += Math.sin(this.y  0.015) + this.speedX;
-                this.rotation += this.rotationSpeed;
+    .big-heart {
+      position: relative;
 
-                if (this.y  height + 30) {
-                    this.reset();
-                }
-            }
+      /* CŨ: 62% */
+      /* MỚI: nhỏ hơn */
+      width: 48%;
 
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation);
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
+      aspect-ratio: 1 / 1;
 
-                ctx.beginPath();
-                const topCurveHeight = this.size  0.3;
-                ctx.moveTo(0, topCurveHeight);
-                ctx.bezierCurveTo(-this.size  2, -topCurveHeight, -this.size, this.size  3, 0, this.size);
-                ctx.bezierCurveTo(this.size, this.size  3, this.size  2, -topCurveHeight, 0, topCurveHeight);
-                ctx.closePath();
-                ctx.fill();
+      transform: rotate(-45deg);
 
-                ctx.restore();
-            }
-        }
+      background:
+        linear-gradient(
+          145deg,
+          #ff668f,
+          #ff174f 55%,
+          #d6003d
+        );
 
-         Click Burst Heart Particle Class
-        class BurstHeart {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random()  16 + 10;
-                const angle = Math.random()  Math.PI  2;
-                const speed = Math.random()  6 + 2;
-                this.vx = Math.cos(angle)  speed;
-                this.vy = Math.sin(angle)  speed - 1;
-                this.life = 1;
-                this.decay = Math.random()  0.03 + 0.02;
-                this.color = `hsl(${Math.random()  30 + 330}, 100%, 65%)`;
-            }
+      border-radius: 12%;
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.1;  gravity
-                this.life -= this.decay;
-            }
+      box-shadow:
+        0 0 35px rgba(255, 37, 91, .55),
+        0 0 90px rgba(255, 37, 91, .22),
+        inset -12px -12px 25px rgba(100, 0, 30, .18),
+        inset 10px 10px 25px rgba(255, 255, 255, .16);
 
-            draw() {
-                if (this.life = 0) return;
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
+      animation:
+        heartbeat 1.45s
+        ease-in-out infinite;
 
-                ctx.beginPath();
-                const topCurveHeight = this.size  0.3;
-                ctx.moveTo(0, topCurveHeight);
-                ctx.bezierCurveTo(-this.size  2, -topCurveHeight, -this.size, this.size  3, 0, this.size);
-                ctx.bezierCurveTo(this.size, this.size  3, this.size  2, -topCurveHeight, 0, topCurveHeight);
-                ctx.closePath();
-                ctx.fill();
+      z-index: 3;
+    }
 
-                ctx.restore();
-            }
-        }
+    .big-heart::before,
+    .big-heart::after {
+      content: "";
 
-         Initialize particles
-        const fallingHeartsCount = 50;
-        const fallingHearts = [];
-        const burstHearts = [];
+      position: absolute;
 
-        for (let i = 0; i  fallingHeartsCount; i++) {
-            const heart = new FallingHeart();
-            heart.y = Math.random()  height;  Spread initially
-            fallingHearts.push(heart);
-        }
+      width: 100%;
+      height: 100%;
 
-         Main animation render loop
-        function render() {
-            ctx.clearRect(0, 0, width, height);
+      border-radius: 50%;
 
-             Render falling hearts
-            fallingHearts.forEach(h = {
-                h.update();
-                h.draw();
-            });
+      background: inherit;
+    }
 
-             Render burst hearts
-            for (let i = burstHearts.length - 1; i = 0; i--) {
-                const b = burstHearts[i];
-                b.update();
-                b.draw();
-                if (b.life = 0) {
-                    burstHearts.splice(i, 1);
-                }
-            }
+    .big-heart::before {
+      top: -50%;
+      left: 0;
+    }
 
-            requestAnimationFrame(render);
-        }
+    .big-heart::after {
+      top: 0;
+      left: 50%;
+    }
 
-         Interactive Click Burst
-        window.addEventListener('pointerdown', (e) = {
-             Don't burst if clicking modal buttons
-            if (e.target.closest('#heart-modal')) return;
+    @keyframes heartbeat {
+      0%,
+      100% {
+        transform:
+          rotate(-45deg)
+          scale(1);
+      }
 
-            for (let i = 0; i  12; i++) {
-                burstHearts.push(new BurstHeart(e.clientX, e.clientY));
-            }
-        });
+      8% {
+        transform:
+          rotate(-45deg)
+          scale(1.08);
+      }
 
-         Modal Handlers
-        function openHeartModal(e) {
-            if (e) e.stopPropagation();
-            const modal = document.getElementById('heart-modal');
-            modal.classList.remove('hidden');
-            
-             Trigger 20 burst particles at heart center
-            for (let i = 0; i  25; i++) {
-                burstHearts.push(new BurstHeart(window.innerWidth  2, window.innerHeight  2));
-            }
-        }
+      16% {
+        transform:
+          rotate(-45deg)
+          scale(1);
+      }
 
-        function closeHeartModal() {
-            document.getElementById('heart-modal').classList.add('hidden');
-        }
+      24% {
+        transform:
+          rotate(-45deg)
+          scale(1.045);
+      }
 
-         Web Audio Synthesizer for Cute Chill Background Melody
-        let isMusicPlaying = false;
-        let audioCtx = null;
-        let melodyInterval = null;
+      36%,
+      100% {
+        transform:
+          rotate(-45deg)
+          scale(1);
+      }
+    }
 
-        function playCuteNote(freq, duration = 0.3) {
-            if (!audioCtx) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
+    /* =========================
+       CHỮ TRONG TIM
+    ========================== */
 
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    .message {
+      position: absolute;
+      z-index: 5;
 
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      width: 100%;
 
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
+      text-align: center;
 
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch (e) {
-                console.log(e);
-            }
-        }
+      transform: translateY(-2%);
 
-        function toggleMusic() {
-            const btnText = document.getElementById('music-text');
-            const btnIcon = document.getElementById('music-icon');
+      padding: 0 20px;
 
-            if (!isMusicPlaying) {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext  window.webkitAudioContext)();
-                }
-                audioCtx.resume();
-                isMusicPlaying = true;
-                btnText.innerText = Tắt nhạc 🎵;
-                btnIcon.className = fa-solid fa-volume-high animate-bounce;
+      text-shadow:
+        0 3px 12px rgba(90, 0, 25, .55);
+    }
 
-                 Pentatonic cute scale sequence
-                const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-                let step = 0;
+    .message .line1,
+    .message .line2 {
+      display: block;
 
-                melodyInterval = setInterval(() = {
-                    if (!isMusicPlaying) return;
-                    const freq = notes[step % notes.length];
-                    playCuteNote(freq, 0.4);
-                    
-                     Harmony soft second note occasionally
-                    if (step % 3 === 0) {
-                        playCuteNote(freq  1.25, 0.3);
-                    }
-                    step++;
-                }, 380);
-            } else {
-                isMusicPlaying = false;
-                if (melodyInterval) clearInterval(melodyInterval);
-                btnText.innerText = Bật nhạc chill 🎵;
-                btnIcon.className = fa-solid fa-music;
-            }
-        }
+      font-weight: 900;
 
-         Start animation loop on window load
-        window.onload = function() {
-            render();
-        };
-    script
-body
-html
+      letter-spacing: .02em;
+    }
+
+    .message .line1 {
+      font-size:
+        clamp(25px, 5vw, 48px);
+    }
+
+    .message .line2 {
+      margin-top: 5px;
+
+      font-size:
+        clamp(29px, 6vw, 58px);
+
+      color: #fff;
+    }
+
+    /* ========================= 4 ẢNH BAY Ở 4 GÓC ========================= */ .photo { position: absolute; z-index: 4; width: clamp(100px, 14vw, 155px); aspect-ratio: 1; object-fit: cover; border: 5px solid rgba(255, 255, 255, .92); border-radius: 18px; box-shadow: 0 15px 35px rgba(0, 0, 0, .45); background: #fff; animation: photoFloat 5s ease-in-out infinite; } /* Góc trên trái */ .p1 { left: -2%; top: 4%; transform: rotate(-10deg); animation-delay: -1s; } /* Góc trên phải */ .p2 { right: -2%; top: 3%; transform: rotate(9deg); animation-delay: -3s; } /* Góc dưới trái */ .p3 { left: -1%; bottom: 2%; transform: rotate(8deg); animation-delay: -2s; } /* Góc dưới phải */ .p4 { right: -1%; bottom: 1%; transform: rotate(-9deg); animation-delay: -4s; } /* ========================= BAY NHẸ ========================= */ @keyframes photoFloat { 0%, 100% { translate: 0 0; } 25% { translate: 10px -12px; } 50% { translate: -5px -22px; } 75% { translate: -10px -8px; } } /* ========================= MOBILE ========================= */ @media (max-width: 650px) { .photo { width: 78px; border-width: 3px; border-radius: 13px; } .p1 { left: -1%; top: 9%; } .p2 { right: -1%; top: 8%; } .p3 { left: 0; bottom: 7%; } .p4 { right: 0; bottom: 6%; } }
+
+    /* =========================
+       HIỆU ỨNG LẤP LÁNH
+    ========================== */
+
+    .sparkle {
+      position: absolute;
+
+      z-index: 6;
+
+      color: #ffd5e0;
+
+      font-size: 22px;
+
+      animation:
+        sparkle 2s
+        ease-in-out infinite;
+    }
+
+    .s1 {
+      top: 8%;
+      left: 25%;
+    }
+
+    .s2 {
+      top: 19%;
+      right: 25%;
+
+      animation-delay: .5s;
+    }
+
+    .s3 {
+      bottom: 20%;
+      left: 24%;
+
+      animation-delay: 1s;
+    }
+
+    .s4 {
+      bottom: 13%;
+      right: 24%;
+
+      animation-delay: 1.4s;
+    }
+
+    @keyframes sparkle {
+      0%,
+      100% {
+        opacity: .25;
+
+        transform:
+          scale(.7)
+          rotate(0);
+      }
+
+      50% {
+        opacity: 1;
+
+        transform:
+          scale(1.25)
+          rotate(20deg);
+      }
+    }
+
+    /* =========================
+       DÒNG CHÚ THÍCH
+    ========================== */
+
+    .note {
+      position: absolute;
+
+      z-index: 7;
+
+      bottom: -12px;
+
+      left: 50%;
+
+      transform:
+        translateX(-50%);
+
+      padding:
+        9px 17px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255, 255, 255, .1);
+
+      border:
+        1px solid rgba(255, 255, 255, .18);
+
+      backdrop-filter:
+        blur(8px);
+
+      font-size: 13px;
+
+      color:
+        rgba(255, 255, 255, .82);
+
+      white-space: nowrap;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 650px) {
+
+      .hero {
+        width: 94vw;
+        aspect-ratio: .82;
+      }
+
+      /* Tim nhỏ hơn */
+      .big-heart {
+        width: 55%;
+      }
+
+      .photo {
+        width: 78px;
+
+        border-width: 3px;
+
+        border-radius: 13px;
+      }
+
+      .p1 {
+        left: 3%;
+        top: 14%;
+      }
+
+      .p2 {
+        right: 3%;
+        top: 12%;
+      }
+
+      .p3 {
+        left: 4%;
+        bottom: 11%;
+      }
+
+      .p4 {
+        right: 4%;
+        bottom: 9%;
+      }
+
+      .note {
+        bottom: 0;
+
+        font-size: 11px;
+      }
+    }
+
+    /* =========================
+       GIẢM CHUYỂN ĐỘNG
+    ========================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration:
+          .001ms !important;
+
+        animation-iteration-count:
+          1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <main>
+
+    <section
+      class="hero"
+      aria-label="Chị Gia Như cố lên"
+    >
+
+      <!-- ẢNH 1 -->
+      <img
+        class="photo p1"
+        src="https://i.pinimg.com/736x/77/19/00/77190088c8605dde08fdd0b3ab1a5441.jpg"
+        alt="Hình trang trí 1"
+        loading="eager"
+      />
+
+      <!-- ẢNH 2 -->
+      <img
+        class="photo p2"
+        src="https://i.pinimg.com/736x/6f/0c/7d/6f0c7dd236a49fef3d2c7ad9def7f87c.jpg"
+        alt="Hình trang trí 2"
+        loading="eager"
+      />
+
+      <!-- ẢNH 3 -->
+      <img
+        class="photo p3"
+        src="https://i.pinimg.com/736x/2d/84/bd/2d84bdf4abd6f05f6efa07a5008d0d98.jpg"
+        alt="Hình mèo trang trí"
+        loading="eager"
+      />
+
+      <!-- ẢNH 4 -->
+      <img
+        class="photo p4"
+        src="https://i.pinimg.com/736x/a1/b1/e8/a1b1e85f90678baa8013f9a430c6d108.jpg"
+        alt="Hình trang trí 4"
+        loading="eager"
+      />
+
+      <!-- TRÁI TIM -->
+      <div class="big-heart"></div>
+
+      <!-- CHỮ -->
+      <div class="message">
+
+        <span class="line1">
+          Chị Gia Như
+        </span>
+
+        <span class="line2">
+          Cố Lên ❤️
+        </span>
+
+      </div>
+
+      <!-- LẤP LÁNH -->
+      <span class="sparkle s1">✦</span>
+      <span class="sparkle s2">✧</span>
+      <span class="sparkle s3">✦</span>
+      <span class="sparkle s4">✧</span>
+
+      <div class="note">
+        Một chút động lực dành cho chị 💗
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const hearts =
+      document.getElementById("hearts");
+
+    const stars =
+      document.getElementById("stars");
+
+
+    /* =========================
+       TIM NHỎ RƠI LIÊN TỤC
+    ========================== */
+
+    const heartCount = 70;
+
+    for (
+      let i = 0;
+      i < heartCount;
+      i++
+    ) {
+
+      const h =
+        document.createElement("span");
+
+      h.className = "heart";
+
+      h.textContent =
+        Math.random() > 0.15
+          ? "♥"
+          : "♡";
+
+      h.style.left =
+        Math.random() * 100 + "vw";
+
+      h.style.setProperty(
+        "--size",
+        (10 + Math.random() * 25) + "px"
+      );
+
+      h.style.setProperty(
+        "--opacity",
+        (0.25 + Math.random() * 0.65)
+          .toFixed(2)
+      );
+
+      h.style.setProperty(
+        "--duration",
+        (5 + Math.random() * 9) + "s"
+      );
+
+      h.style.setProperty(
+        "--delay",
+        (-Math.random() * 14) + "s"
+      );
+
+      h.style.setProperty(
+        "--drift",
+        (-80 + Math.random() * 160) + "px"
+      );
+
+      hearts.appendChild(h);
+    }
+
+
+    /* =========================
+       SAO LẤP LÁNH
+    ========================== */
+
+    for (
+      let i = 0;
+      i < 55;
+      i++
+    ) {
+
+      const s =
+        document.createElement("span");
+
+      s.className = "star";
+
+      s.style.left =
+        Math.random() * 100 + "vw";
+
+      s.style.top =
+        Math.random() * 100 + "vh";
+
+      s.style.animationDelay =
+        (-Math.random() * 2) + "s";
+
+      s.style.animationDuration =
+        (1.2 + Math.random() * 2.5) + "s";
+
+      stars.appendChild(s);
+    }
+
+  </script>
+
+</body>
+</html>
+```
